@@ -24,6 +24,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     // MARK: TODO: Open URL
     // OAuth step 2
     func application(_ app: UIApplication, open url: URL, options: [UIApplicationOpenURLOptionsKey : Any] = [:]) -> Bool {
+        
+        print("url: \(url.description)")
+        // Prints - url: yourcallbackurl://?oauth_token=your_token&oauth_verifier=your_verifier
+        
         // Handle urlcallback sent from Twitter
         APIManager.shared.handle(url: url)
         return true

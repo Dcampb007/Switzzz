@@ -4,6 +4,8 @@
 <dict>
 	<key>CFBundleDevelopmentRegion</key>
 	<string>en</string>
+	<key>CFBundleDisplayName</key>
+	<string>twitter_alamofire_demo</string>
 	<key>CFBundleExecutable</key>
 	<string>$(EXECUTABLE_NAME)</string>
 	<key>CFBundleIdentifier</key>
@@ -22,7 +24,7 @@
 			<key>CFBundleTypeRole</key>
 			<string>Editor</string>
 			<key>CFBundleURLName</key>
-			<string>com.codepath.twitter-alamofire-demo</string>
+			<string>com.codepath.twitter-dre</string>
 			<key>CFBundleURLSchemes</key>
 			<array>
 				<string>alamoTwitter</string>

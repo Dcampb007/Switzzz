@@ -14,9 +14,9 @@ import KeychainAccess
 
 class APIManager: SessionManager {
     
-    // MARK: TODO: Add App Keys
-    static let consumerKey = "YOUR_KEY_HERE"
-    static let consumerSecret = "YOUR_SECRET_HERE"
+    // MARK: Add App Keys
+    static let consumerKey = "UcntjFEKguWHPIjU7CyC5Rrae"
+    static let consumerSecret = "kFWgPgC3EHvvnaNmm55SYGWGnoh4oODeRJjXYfe0OE0mFfSGVd"
 
     static let requestTokenURL = "https://api.twitter.com/oauth/request_token"
     static let authorizeURL = "https://api.twitter.com/oauth/authorize"
@@ -30,8 +30,9 @@ class APIManager: SessionManager {
         // Add callback url to open app when returning from Twitter login on web
         let callbackURL = URL(string: APIManager.callbackURLString)!
         oauthManager.authorize(withCallbackURL: callbackURL, success: { (credential, _response, parameters) in
-            
             // Save Oauth tokens
+            print("token: \(credential.oauthToken)")
+            print("secret: \(credential.oauthTokenSecret)")
             self.save(credential: credential)
             
             self.getCurrentAccount(completion: { (user, error) in
@@ -40,8 +41,8 @@ class APIManager: SessionManager {
                 } else if let user = user {
                     print("Welcome \(user.name)")
                     
-                    // MARK: TODO: set User.current, so that it's persisted
-                    
+                    // set User.current, so that it's persisted
+                    User.current = user
                     success()
                 }
             })
@@ -64,6 +65,7 @@ class APIManager: SessionManager {
                         completion(nil, JSONError.parsing("Unable to create user dictionary"))
                         return
                     }
+                     print("userdict: \(userDictionary)")
                     completion(User(dictionary: userDictionary), nil)
                 }
         }
@@ -130,6 +132,7 @@ class APIManager: SessionManager {
     static var shared: APIManager = APIManager()
     
     var oauthManager: OAuth1Swift!
+    let sessionManager = SessionManager.default
     
     // Private init for singleton only
     private init() {
@@ -151,7 +154,16 @@ class APIManager: SessionManager {
         }
         
         // Assign oauth request adapter to Alamofire SessionManager adapter to sign requests
-        adapter = oauthManager.requestAdapter
+        let adapter = oauthManager.requestAdapter
+        sessionManager.adapter = adapter
+        let url = URL(string: "https://api.twitter.com/1.1/account/verify_credentials.json")!
+        sessionManager.request(url).responseJSON(completionHandler: { (response) in
+            
+            if let responseDictionary = response.result.value as? [String: Any] {
+               // print(responseDictionary)
+            }
+        })
+        
     }
     
     // MARK: Handle url
