@@ -24,10 +24,10 @@
 			<key>CFBundleTypeRole</key>
 			<string>Editor</string>
 			<key>CFBundleURLName</key>
-			<string>com.codepath.twitter-dre</string>
+			<string>com.codepath.twitter-alamofire-dre</string>
 			<key>CFBundleURLSchemes</key>
 			<array>
-				<string>alamoTwitter</string>
+				<string>BluTwitter</string>
 			</array>
 		</dict>
 	</array>

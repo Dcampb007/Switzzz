@@ -11,6 +11,6 @@
 #endif
 
 
-FOUNDATION_EXPORT double Pods_twitter_alamofire_demoVersionNumber;
-FOUNDATION_EXPORT const unsigned char Pods_twitter_alamofire_demoVersionString[];
+FOUNDATION_EXPORT double Pods_SwitzzzVersionNumber;
+FOUNDATION_EXPORT const unsigned char Pods_SwitzzzVersionString[];
 
