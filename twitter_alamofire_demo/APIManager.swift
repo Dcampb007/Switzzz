@@ -124,22 +124,15 @@ class APIManager: SessionManager {
     
     // MARK: TODO: Retweet
     func retweet(_ tweet: Tweet, completion: @escaping (Tweet?, Error?) -> ()) {
-        var id = tweet.id!
-        var idd = String(id)
-        var urlString = "https://api.twitter.com/1.1/statuses/retweet/\(idd).json"
-        urlString = urlString + idd
-        urlString = urlString + ".json"
-        let url = URL(string: urlString)!
+        var urlString = "https://api.twitter.com/1.1/statuses/retweet/\(tweet.id).json"
         let parameters = ["id": tweet.id]
         request(urlString, method: .post, parameters: parameters, encoding: URLEncoding.queryString).validate().responseJSON { (response) in
             if response.result.isSuccess{
                 print("retweet success!")
                 let tweetDictionary = response.result.value as? [String: Any]
                 let tweet = Tweet(dictionary: tweetDictionary!)
-                tweet.retweeted = true
                 completion(tweet, nil)
             } else
-                
             {
                 completion(nil, response.result.error)
             }
@@ -151,19 +144,13 @@ class APIManager: SessionManager {
     // MARK: TODO: Un-Retweet
     
     func unRetweet(_ tweet: Tweet, completion: @escaping (Tweet?, Error?) -> ()) {
-        var id = tweet.id!
-        var idd = String(id)
-        var urlString = "https://api.twitter.com/1.1/statuses/unretweet/\(idd).json"
-        urlString = urlString + idd
-        urlString = urlString + ".json"
-        let url = URL(string: urlString)!
+        var urlString = "https://api.twitter.com/1.1/statuses/unretweet/\(tweet.id).json"
         let parameters = ["id": tweet.id]
         request(urlString, method: .post, parameters: parameters, encoding: URLEncoding.queryString).validate().responseJSON { (response) in
             if response.result.isSuccess{
                 print("unretweet success")
                 let tweetDictionary = response.result.value as? [String: Any]
                 let tweet = Tweet(dictionary: tweetDictionary!)
-                tweet.retweeted = false
                 completion(tweet, nil)
             } else
                 

@@ -52,22 +52,24 @@ class TweetCell: UITableViewCell {
         if tweet.retweeted! {
             APIManager.shared.unRetweet(tweet) { (tweet: Tweet?, error: Error?) in
                 if let  error = error {
-                    print("Error favoriting tweet: \(error.localizedDescription)")
-                } else if let tweet = tweet {
-                    print("Successfully unfavorited the following Tweet: \n\(tweet.text)")
-                    var count = tweet.favoriteCount! - 1
-                    self.favoriteLabel.text = String(count)
+                    print("Error unretweeting tweet: \(error.localizedDescription)")
+                } else if let ntweet = tweet {
+                    print("Successfully unretweeted the following Tweet: \n\(ntweet.text)")
+                    self.tweet.retweeted = false
+                    // This is a hack, for some reason it's not decreasing when I unretweet
+                    self.retweetLabel.text = String(ntweet.retweetCount! - 1)
                 }
             }
         }
         else {
             APIManager.shared.retweet(tweet) { (tweet: Tweet?, error: Error?) in
                 if let  error = error {
-                    print("Error favoriting tweet: \(error.localizedDescription)")
-                } else if let tweet = tweet {
-                    print("Successfully favorited the following Tweet: \n\(tweet.text)")
-                    var count = tweet.favoriteCount! + 1
-                    self.favoriteLabel.text = String(count)
+                    print("Error retweeting tweet: \(error.localizedDescription)")
+                } else if let ntweet = tweet {
+                    print("Successfully rewtweeting the following Tweet: \n\(ntweet.text)")
+                   // var count = ntweet.favoriteCount! + 1
+                    self.tweet.retweeted = true
+                    self.retweetLabel.text = String(ntweet.retweetCount!)
                 }
             }
         }
@@ -76,26 +78,27 @@ class TweetCell: UITableViewCell {
     @IBAction func didTapFavorite(_ sender: Any) {
         if tweet.favorited! {
             print("true")
-            APIManager.shared.unFavorite(tweet) { (ntweet: Tweet?, error: Error?) in
+            APIManager.shared.unFavorite(tweet) { (tweet: Tweet?, error: Error?) in
                 if let  error = error {
-                    print("Error favoriting tweet: \(error.localizedDescription)")
-                } else if let ntweet = ntweet {
-                    
-                    print("Successfully favorited the following Tweet: \n\(ntweet.text)")
-                    let count = ntweet.favoriteCount! - 1
-                    self.favoriteLabel.text = String(count)
+                    print("Error unfavoriting tweet: \(error.localizedDescription)")
+                } else if let ntweet = tweet {
+                    print("Successfully unfavorited the following Tweet: \n\(ntweet.text)")
+                   // let count = ntweet.favoriteCount! - 1
+                    self.tweet.favorited = false
+                    self.favoriteLabel.text = String(ntweet.favoriteCount!)
                 }
             }
         }
         else {
             print("false")
-            APIManager.shared.favorite(tweet) { (ntweet: Tweet?, error: Error?) in
+            APIManager.shared.favorite(tweet) { (tweet: Tweet?, error: Error?) in
                 if let  error = error {
                     print("Error favoriting tweet: \(error.localizedDescription)")
-                } else if let ntweet = ntweet {
+                } else if let ntweet = tweet {
                     print("Successfully favorited the following Tweet: \n\(ntweet.text)")
-                    let count = ntweet.favoriteCount! + 1
-                    self.favoriteLabel.text = String(count)
+                   // let count = ntweet.favoriteCount! + 1
+                    self.tweet.favorited = true
+                    self.favoriteLabel.text = String(ntweet.favoriteCount!)
                 }
             }
         }
